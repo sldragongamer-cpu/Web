@@ -1,0 +1,189 @@
+{% extends "base.html" %}{% block title %}Categories{% endblock %} {% block
+content %}
+<style>
+  .menu-container {
+    display: flex;
+    gap: 0;
+    min-height: 600px;
+  }
+
+  .sidebar-menu {
+    background-color: #2a2a2a;
+    width: 300px;
+    padding: 0;
+    position: relative;
+    overflow: visible;
+  }
+
+  .menu-wrapper {
+    position: relative;
+  }
+
+  .menu-item {
+    padding: 15px 20px;
+    color: #e0e0e0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+
+  .menu-item:hover {
+    background-color: #3a3a3a;
+    color: white;
+    padding-right: 25px;
+  }
+
+  .menu-item::after {
+    content: "›";
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .menu-item:hover::after {
+    opacity: 1;
+  }
+
+  .submenu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #080f2e;
+    width: 250px;
+    display: none;
+    z-index: 1000;
+    border-left: 3px solid #007bff;
+  }
+
+  .menu-wrapper:hover .submenu {
+    display: block;
+  }
+
+  .submenu-item {
+    padding: 12px 20px;
+    color: #ffffff;
+    display: block;
+    text-decoration: none;
+    border-bottom: 1px solid #333;
+    transition: all 0.3s ease;
+  }
+
+  .submenu-item:hover {
+    background-color: #333;
+    color: white;
+    padding-left: 30px;
+  }
+
+  .submenu-title {
+    padding: 12px 20px;
+    color: #b0b0b0;
+    font-weight: bold;
+    background-color: #222;
+    border-bottom: 1px solid #333;
+  }
+
+  .content-area {
+    flex-grow: 1;
+    padding: 20px;
+  }
+</style>
+
+<div class="menu-container">
+  <div class="sidebar-menu">
+    <div class="menu-wrapper">
+      <div class="menu-item">Gaming</div>
+      <div class="submenu">
+        <div class="submenu-title">Gaming</div>
+        <a href="/categories/gaming" class="submenu-item">All Gaming</a>
+      </div>
+    </div>
+
+    <div class="menu-wrapper">
+      <div class="menu-item">PC</div>
+      <div class="submenu">
+        <div class="submenu-title">PC</div>
+        <a href="/categories/pc" class="submenu-item">All PC</a>
+      </div>
+    </div>
+
+    <div class="menu-wrapper">
+      <div class="menu-item">Peripherals</div>
+      <div class="submenu">
+        <div class="submenu-title">Peripherals</div>
+        <a href="/peripherals/mice" class="submenu-item">Gaming Mouses</a>
+        <a href="/peripherals/keyboards" class="submenu-item"
+          >Gaming Keyboards</a
+        >
+        <a href="/peripherals/headsets" class="submenu-item">
+          Gaming Headsets</a
+        >
+        <a href="/peripherals/monitors" class="submenu-item">Gaming Monitors</a>
+        <a href="/peripherals" class="submenu-item">All Products</a>
+      </div>
+    </div>
+
+    <div class="menu-wrapper">
+      <div class="menu-item">Office computers and peripherals</div>
+      <div class="submenu">
+        <div class="submenu-title">Office computers and peripherals</div>
+        <a href="/office/mice" class="submenu-item">Office Mouses</a>
+        <a href="/office/keyboards" class="submenu-item">Office Keyboards</a>
+        <a href="/office/headsets" class="submenu-item">Normal Headsets</a>
+        <a href="/office/monitors" class="submenu-item">Normal Monitors</a>
+        <a href="/office" class="submenu-item">All Products</a>
+      </div>
+    </div>
+  </div>
+  <div class="content-area">
+    <h1>Categories</h1>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Gaming</h5>
+            <p class="card-text">Browse our gaming products and accessories.</p>
+            <a href="/categories/gaming" class="btn btn-primary">Shop Gaming</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Peripherals</h5>
+            <p class="card-text">
+              Explore our computer peripherals collection.
+            </p>
+            <a href="/peripherals" class="btn btn-primary">Shop Peripherals</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">PC</h5>
+            <p class="card-text">Discover our PC components and systems.</p>
+            <a href="/categories/pc" class="btn btn-primary">Shop PC</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Office Computers and Peripherals</h5>
+            <p class="card-text">
+              Explore our office computers and peripherals collection.
+            </p>
+            <a href="/categories/office" class="btn btn-primary">Shop Office</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

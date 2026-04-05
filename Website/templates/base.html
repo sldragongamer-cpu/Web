@@ -1,0 +1,356 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="ütf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale = 1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+
+    <title>{% block title %}Home{% endblock %}</title>
+    <style>
+      .navbar-nav .nav-link {
+        color: rgb(1, 6, 7) !important;
+      }
+      body {
+        background-color: #0b13b7;
+      }
+      h1 {
+        text-align: center;
+      }
+      /* Side menu styles */
+      .side-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease;
+        z-index: 1040;
+      }
+      .side-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .side-menu {
+        position: fixed;
+        top: 0;
+        left: -320px;
+        width: 320px;
+        height: 100vh;
+        background: #111;
+        color: #fff;
+        padding: 20px;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
+        transition: left 0.25s ease;
+        z-index: 1050;
+        overflow-y: auto;
+      }
+      .side-menu.open {
+        left: 0;
+      }
+      .side-menu .close-btn {
+        color: #ddd;
+        float: right;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .side-menu .menu-item {
+        padding: 12px 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      .side-menu .menu-item a {
+        color: #e9e9e9;
+        text-decoration: none;
+        display: block;
+      }
+      .side-menu .submenu {
+        padding-left: 14px;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav">
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          <a class="nav-item nav-link" id="products" href="/products"
+            >Products</a
+          >
+          <div class="nav-item dropdown">
+            <a
+              class="nav-link"
+              href="#"
+              id="categoriesDropdown"
+              role="button"
+              onclick="openCategorySideMenu(event)"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Categories</a
+            >
+            <div class="dropdown-menu" aria-labelledby="categoriesDropdown">
+              <a class="dropdown-item" href="/categories/gaming">Gaming</a>
+              <a class="dropdown-item" href="/categories/pc">PC</a>
+              <div class="dropdown-divider"></div>
+              <a
+                class="dropdown-item dropdown-toggle"
+                href="#"
+                id="peripheralsSubmenu"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Peripherals</a
+              >
+              <div class="dropdown-menu" aria-labelledby="peripheralsSubmenu">
+                <a class="dropdown-item" href="/peripherals/mice">Mice</a>
+                <a class="dropdown-item" href="/peripherals/keyboards"
+                  >Keyboards</a
+                >
+                <a class="dropdown-item" href="/peripherals/headsets"
+                  >Headsets</a
+                >
+                <a class="dropdown-item" href="/peripherals/monitors"
+                  >Monitors</a
+                >
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/peripherals">All Peripherals</a>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/categories">All Categories</a>
+            </div>
+          </div>
+          {% else %}
+          <a class="nav-item nav-link" id="login" href="/login">Login</a>
+          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+          <a class="nav-item nav-link" id="products" href="/products"
+            >Products</a
+          >
+          <div class="nav-item dropdown">
+            <a
+              class="nav-link"
+              href="#"
+              id="categoriesDropdownGuest"
+              role="button"
+              onclick="openCategorySideMenu(event)"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Categories</a
+            >
+            <div
+              class="dropdown-menu"
+              aria-labelledby="categoriesDropdownGuest"
+            >
+              <a class="dropdown-item" href="/categories/gaming">Gaming</a>
+              <a class="dropdown-item" href="/categories/pc">PC</a>
+              <div class="dropdown-divider"></div>
+              <a
+                class="dropdown-item dropdown-toggle"
+                href="#"
+                id="peripheralsSubmenuGuest"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Peripherals</a
+              >
+              <div
+                class="dropdown-menu"
+                aria-labelledby="peripheralsSubmenuGuest"
+              >
+                <a class="dropdown-item" href="/peripherals/mice">Mice</a>
+                <a class="dropdown-item" href="/peripherals/keyboards"
+                  >Keyboards</a
+                >
+                <a class="dropdown-item" href="/peripherals/headsets"
+                  >Headsets</a
+                >
+                <a class="dropdown-item" href="/peripherals/monitors"
+                  >Monitors</a
+                >
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/peripherals">All Peripherals</a>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/categories">All Categories</a>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+            <a
+                class="dropdown-item dropdown-toggle"
+                href="#"
+                id="peripheralsSubmenuGuest"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Office computers and Peripherals</a
+              >
+              <div
+                class="dropdown-menu"
+                aria-labelledby="peripheralsSubmenuGuest"
+              >
+                <a class="dropdown-item" href="/peripherals/mice">Office Mouses</a>
+                <a class="dropdown-item" href="/peripherals/keyboards"
+                  >Office Keyboards</a
+                >
+                <a class="dropdown-item" href="/peripherals/headsets"
+                  >Office Headsets</a
+                >
+                <a class="dropdown-item" href="/peripherals/monitors"
+                  >Monitors</a
+                >
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/peripherals">All Peripherals</a>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/categories">All Categories</a>
+            </div>
+          </div>
+
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- Side menu and overlay -->
+    <div
+      id="sideOverlay"
+      class="side-overlay"
+      onclick="closeCategorySideMenu()"
+    ></div>
+    <aside id="categorySideMenu" class="side-menu" aria-hidden="true">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <h4 style="margin: 0">Categories</h4>
+        <span class="close-btn" onclick="closeCategorySideMenu()">&times;</span>
+      </div>
+      <div style="margin-top: 12px">
+        <div class="menu-item"><a href="/categories/gaming">Gaming</a></div>
+        <div class="menu-item"><a href="/categories/pc">PC</a></div>
+        <div class="menu-item">
+          Peripherals
+          <div class="submenu">
+            <div class="submenu"><a href="/peripherals/mice">Gaming Mouses</a></div>
+            <div class="submenu">
+              <a href="/peripherals/keyboards">Gaming Keyboards</a>
+            </div>
+            <div class="submenu">
+              <a href="/peripherals/headsets">Gaming Headsets</a>
+            </div>
+            <div class="submenu">
+              <a href="/peripherals/monitors">Gaming Monitors</a>
+            </div>
+            <div class="submenu">
+              <a href="/peripherals">All Peripherals</a>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 12px">
+        <div class="menu-item">
+          Office computers and Peripherals
+          <div class="submenu">
+            <div class="submenu"><a href="/office/mice">Office Mouses</a></div>
+            <div class="submenu">
+              <a href="/office/keyboards">Office Keyboards</a>
+            </div>
+            <div class="submenu">
+              <a href="/office/headsets">Office Headsets</a>
+            </div>
+            <div class="submenu">
+              <a href="/office/monitors">Office Monitors</a>
+            </div>
+            <div class="submenu">
+              <a href="/office">All Office Products</a>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item"><a href="/categories">All Categories</a></div>
+      </div>
+    </aside>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div class="container">{% block content %} {% endblock %}</div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function openCategorySideMenu(e) {
+        if (e) e.preventDefault();
+        document.getElementById("categorySideMenu").classList.add("open");
+        document.getElementById("sideOverlay").classList.add("show");
+        document
+          .getElementById("categorySideMenu")
+          .setAttribute("aria-hidden", "false");
+      }
+      function closeCategorySideMenu() {
+        document.getElementById("categorySideMenu").classList.remove("open");
+        document.getElementById("sideOverlay").classList.remove("show");
+        document
+          .getElementById("categorySideMenu")
+          .setAttribute("aria-hidden", "true");
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeCategorySideMenu();
+        }
+      });
+    </script>
+  </body>
+</html>
